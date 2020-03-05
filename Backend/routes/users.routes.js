@@ -1,8 +1,24 @@
-const express = require("express");
-const router = express();
+var express = require('express')
+var userRouter = express.Router()
 
-module.exports = app => {
-   app.get("/register", (req, res, next) => {
-      res.send("REGISTER");
-   });
-};
+//Register
+userRouter.get("/register", (req, res, next) => {
+   res.send("REGISTER");
+});
+
+//Authenticate
+userRouter.get("/auth", (req, res, next) => {
+   res.send("Authenticate");
+});
+
+//Profile
+userRouter.get("/profile", (req, res, next) => {
+   res.send("PROFILE");
+});
+
+//Validate
+userRouter.get("/validate", (req, res, next) => {
+   res.send("VALIDATE");
+});
+
+module.exports = userRouter;
