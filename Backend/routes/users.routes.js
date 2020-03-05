@@ -2,7 +2,7 @@ var express = require('express')
 var userRouter = express.Router()
 
 //Register
-userRouter.get("/register", (req, res, next) => {
+userRouter.post("/register", (req, res, next) => {
    res.send("REGISTER");
 });
 
@@ -14,11 +14,6 @@ userRouter.post("/auth", (req, res, next) => {
 //Profile
 userRouter.get("/profile", (req, res, next) => {
    res.send("PROFILE");
-});
-
-//Validate
-userRouter.get("/validate", (req, res, next) => {
-   res.send("VALIDATE");
 });
 
 module.exports = userRouter;
