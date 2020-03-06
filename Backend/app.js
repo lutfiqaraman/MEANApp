@@ -7,7 +7,7 @@ const passport = require("passport");
 require('dotenv').config({ path: './config/.env' });
 
 //Set Database
-require("./db/database");
+require("./db/db_config");
 
 const app = express();
 const port = process.env.PORT;

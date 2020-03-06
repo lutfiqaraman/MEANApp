@@ -1,6 +1,6 @@
 /*
     A database connection file
-    Database is mongodb 
+    The database is mongodb ver. 4.2
 */
 const mongoose = require("mongoose");
 
