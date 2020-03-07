@@ -27,22 +27,15 @@ userSchema.pre("save", async function(next) {
     
     if (user.isModified("password")) {
         const salt = crypto.randomBytes(16).toString("hex");
-        user.password = crypto
+        const hash = crypto
         .pbkdf2Sync(user.password, salt, 1000, 64, "sha512")
         .toString("hex");
+
+        user.password = hash;
     }
 
     next();
 });
-
-exports.getUserById = function(id, callBack) {
-  userModel.findById(id, callBack);
-};
-
-function getUserByUsername(username, callBack) {
-  const query = { username };
-  userModel.findOne(query, callBack);
-};
 
 const User = mongoose.model("User", userSchema);
 
