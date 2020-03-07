@@ -26,7 +26,10 @@ userSchema.pre("save", async function(next) {
     const user = this;
     
     if (user.isModified("password")) {
-        user.password = crypto.createHash("sha256").update(user.password).digest("hex");
+        const salt = crypto.randomBytes(16).toString("hex");
+        user.password = crypto
+        .pbkdf2Sync(user.password, salt, 1000, 64, "sha512")
+        .toString("hex");
     }
 
     next();
