@@ -23,6 +23,11 @@ app.use("/users", users);
 //Set Static Folder
 app.use(express.static(path.join(__dirname, "public")));
 
+//Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // Start Server
 app.listen(port, () => {
     console.log("Server started on port " + port);
