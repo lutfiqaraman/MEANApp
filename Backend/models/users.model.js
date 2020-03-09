@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const dbConfig = require("../db/db_config");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 //User Schema
 const userSchema = new mongoose.Schema({
@@ -20,6 +20,19 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 });
+
+// Generate Authentication Token
+userSchema.methods.generateAuthToken = async function() {
+  const user = this;
+  const generatedToken = await jwt.sign(
+    { _id: user._id.toString() },
+    process.env.JWT_PRIVATEKEY
+  );
+
+  await user.save();
+
+  return generatedToken;
+};
 
 // Hashing a plain password before saving
 userSchema.pre("save", async function(next) {

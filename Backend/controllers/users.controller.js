@@ -1,11 +1,12 @@
-const user = require("../models/users.model");
+const User = require("../models/users.model");
 
-exports.register = async (req, res, next) => {
-  const newUser = new user(req.body);
+exports.register = async (req, res) => {
+  const user = new User(req.body);
 
   try {
-    await newUser.save();
-    res.status(201).send({newUser});
+    await user.save();
+    const token = await user.generateAuthToken();
+    res.status(201).send({user, token});
   } catch(error) {
     res.send(400).send(error);
   }
