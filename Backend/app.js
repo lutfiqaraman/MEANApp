@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const passport = require("passport");
 
 require('dotenv').config({ path: './config/.env' });
 
@@ -15,13 +16,16 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
+//Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Set a route for Users
 const users = require("./routes/users.routes");
 app.use("/users", users);
 
 //Set Static Folder
 app.use(express.static(path.join(__dirname, "public")));
-
 
 // Start Server
 app.listen(port, () => {
