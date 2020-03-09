@@ -6,16 +6,16 @@ exports.register = async (req, res) => {
   try {
     await user.save();
     const token = await user.generateAuthToken();
-    res.status(201).send({user, token});
-  } catch(error) {
+    res.status(201).send({ user, token });
+  } catch (error) {
     res.send(400).send(error);
   }
 };
 
-exports.auth = async (req, res, next) => {
+exports.auth = async (req, res) => {
   await res.send("PROFILE");
 };
 
-exports.profile = async (req, res, next) => {
-  await res.send("PROFILE");
+exports.profile = async (req, res) => {
+  await res.json({ user: req.user });
 };
