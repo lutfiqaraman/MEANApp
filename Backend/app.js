@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const passport = require("passport");
 
 require('dotenv').config({ path: './config/.env' });
 
@@ -22,10 +21,6 @@ app.use("/users", users);
 
 //Set Static Folder
 app.use(express.static(path.join(__dirname, "public")));
-
-//Passport Middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 // Start Server
