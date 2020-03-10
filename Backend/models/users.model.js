@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 //User Schema
@@ -37,16 +37,14 @@ userSchema.methods.generateAuthToken = async function() {
 // Hashing a plain password before saving
 userSchema.pre("save", async function(next) {
     const user = this;
-    
+
     if (user.isModified("password")) {
-        const salt = crypto.randomBytes(16).toString("hex");
-        const hash = crypto
-        .pbkdf2Sync(user.password, salt, 1000, 64, "sha512")
-        .toString("hex");
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(user.password, salt);
 
-        user.password = hash;
+      user.password = hash;
     }
-
+    
     next();
 });
 

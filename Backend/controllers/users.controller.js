@@ -1,5 +1,6 @@
 const User = require("../models/users.model");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 require("dotenv").config({ path: "./config/.env" });
 
@@ -9,14 +10,46 @@ exports.register = async (req, res) => {
   try {
     await user.save();
     const token = await user.generateAuthToken();
-    res.status(201).send({ user, token});
+    res.status(201).send({ user, token });
   } catch (error) {
-    res.status(400).send('failed to register user');
+    res.status(400).send("failed to register user");
   }
 };
 
 exports.auth = async (req, res) => {
-  await res.status(200).send("AUTH");
+  const username = req.body.username;
+  const password = req.body.password;
+
+  getUserByUsername(username, (err, user) => {
+    if (err) throw err;
+
+    if (!user) {
+      return res.json({ success: false, msg: "User not found ... " });
+    }
+
+    comparePassword(password, user.password, (err, isMatch) => {
+      if (err) throw err;
+
+      if (isMatch) {
+        const token = jwt.sign({ id: user._id }, process.env.SECRET, {
+          expiresIn: 604800
+        });
+
+        res.json({
+          success: true,
+          token: "Bearer " + token,
+          user: {
+            id: user._id,
+            name: user.name,
+            username: user.username,
+            email: user.email
+          }
+        });
+      } else {
+        return res.json({ success: false, msg: "wrong password ... " });
+      }
+    });
+  });
 };
 
 exports.profile = async (req, res) => {
@@ -28,6 +61,14 @@ getUserById = async (id, callBack) => {
 };
 
 getUserByUsername = async (username, callBack) => {
-  const query = {username};
+  const query = { username };
   await User.findOne(query, callBack);
+};
+
+comparePassword = async (candidatePassword, hash, callBack) => {
+  await bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+    if (err) throw err;
+
+    callBack(null, isMatch);
+  });
 };

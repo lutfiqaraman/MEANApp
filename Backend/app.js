@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 //Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
+require("./config/passport")(passport);
 
 // Set a route for Users
 const users = require("./routes/users.routes");
