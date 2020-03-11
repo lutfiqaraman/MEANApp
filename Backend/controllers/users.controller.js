@@ -37,7 +37,7 @@ exports.auth = async (req, res) => {
 
         res.json({
           success: true,
-          token: "Bearer " + token,
+          token: "JWT " + token,
           user: {
             id: user._id,
             name: user.name,
