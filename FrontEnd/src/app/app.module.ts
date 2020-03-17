@@ -4,6 +4,10 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { FormsModule } from '@angular/forms';
+
+import { ValidationService } from './services/validation.service';
+
 
 @NgModule({
   declarations: [
@@ -12,9 +16,10 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ValidationService],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
