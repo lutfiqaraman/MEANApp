@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ValidationService } from '../../services/validation.service';
+import { AuthService } from '../../services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +18,10 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private validationRegisterForm: ValidationService,
-    private notify: NotificationService ) { }
+    private notify: NotificationService,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
@@ -31,10 +36,19 @@ export class RegisterComponent implements OnInit {
 
     if (!this.validationRegisterForm.validateRegsiter(registeredUser)) {
       this.notify.onFail('Please fill in all required fields');
-    } else {
-      this.notify.onSuccess('User has been registered');
     }
 
     this.validationRegisterForm.validateRegsiter(registeredUser);
+
+    // Register a user
+    this.authService.registerUser(registeredUser).subscribe(data => {
+      if (data) {
+        this.notify.onSuccess('You are now registered ...');
+        this.router.navigate(['/login']);
+      } else {
+        this.notify.onWarn('You are not registered yet');
+        this.router.navigate(['/register']);
+      }
+    });
   }
 }

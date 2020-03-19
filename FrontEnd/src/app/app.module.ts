@@ -6,10 +6,10 @@ import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
 
-import { ValidationService } from './services/validation.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,9 +21,10 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [ValidationService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
