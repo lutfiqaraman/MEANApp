@@ -15,9 +15,9 @@ export class AuthService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    const endPoint = 'http://localhost:3000/users/register';
+    const url = 'http://localhost:3000/users/register';
     const header = { headers };
 
-    return this.http.post(endPoint, user, header).pipe(map(res => res));
+    return this.http.post(url, user, header).pipe(map(res => res));
   }
 }
