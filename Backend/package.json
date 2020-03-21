@@ -8,6 +8,7 @@
     "start": "nodemon app"
   },
   "keywords": [],
+  "debug": "nodemon --inspect",
   "author": "Lutfi Qaraman",
   "license": "ISC",
   "dependencies": {
