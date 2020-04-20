@@ -8,7 +8,7 @@ require("dotenv").config({ path: "./config/.env" });
 exports.register = async (req, res) => {
   const user = new User(req.body);
   user.password = hashingPassword(user.password);
-
+  
   try {
     await user.save();
     res.status(201).send({ user });
