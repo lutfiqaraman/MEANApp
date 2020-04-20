@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+//Username must be unique
 User.collection.createIndex({ "username": 1 }, { unique: true });
 
 module.exports = User;
