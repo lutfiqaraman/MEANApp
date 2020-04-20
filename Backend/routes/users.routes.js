@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 userRouter.post("/register", userController.register);
 
 //Authenticate
-userRouter.post("/auth", userController.login);
+userRouter.post("/login", userController.login);
 
 //Profile
 userRouter.get("/profile", auth, userController.profile);
