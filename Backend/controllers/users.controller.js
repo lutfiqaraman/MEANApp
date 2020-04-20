@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 
 require("dotenv").config({ path: "./config/.env" });
 
+// User - Register a user for the first time
 exports.register = async (req, res) => {
   const user = new User(req.body);
 
@@ -15,7 +16,8 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.auth = async (req, res) => {
+// User - a registered user does login
+exports.login = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -51,6 +53,7 @@ exports.auth = async (req, res) => {
   });
 };
 
+// User - Show a User profile
 exports.profile = async (req, res) => {
   await res.json({ user: req.user });
 };
