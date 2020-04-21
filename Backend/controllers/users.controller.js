@@ -22,19 +22,25 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const enteredPassword = hashingPassword(password);
-
+  
   //find user according to the username
   const user = await User.findOne({ username });
 
-  const userpassword = user.password;
+  //If user exists generate a token
+  if (user != null) {
+    const enteredPassword = hashingPassword(password);
+    const userpassword = user.password;
 
-  if (enteredPassword === userpassword) {
-    const token = tokenmanagement.signToken(username);
-    res.status(200).send({ token });
-  } else {
-    res.status(400).send("unauthorized user!");
+    if (enteredPassword === userpassword) {
+      const token = tokenmanagement.signToken(username);
+      res.status(200).send({ token });
+    } else {
+      res.status(400).send("unauthorized user!");
+    }
   }
+  
+  
+  
 };
 
 // User - Show a User profile
@@ -45,7 +51,7 @@ exports.profile = async (req, res) => {
 // Hashing password
 hashingPassword = (password) => {
   const salt = crypto.randomBytes(16).toString("hex");
-  const hash = crypto.pbkdf2Sync(password, salt, 64, "sha512").toString("hex");
+  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
 
   return hash;
 }
