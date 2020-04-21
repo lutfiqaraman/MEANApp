@@ -38,9 +38,6 @@ exports.login = async (req, res) => {
       res.status(400).send("unauthorized user!");
     }
   }
-  
-  
-  
 };
 
 // User - Show a User profile
