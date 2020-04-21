@@ -3,8 +3,8 @@ const keys = require("./keys");
 require("dotenv").config({ path: "./config/.env" });
 
 // Sign Token
-exports.signToken = (id) => {
-  const payloads = { id };
+exports.signToken = (username) => {
+  const payloads = { username };
 
   const privateKey = {
     key: keys.keyGenerator.privateKey,
