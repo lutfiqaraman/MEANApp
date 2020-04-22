@@ -1,7 +1,6 @@
 const User = require("../models/users.model");
 const bcrypt = require("bcryptjs");
 const tokenmanagement = require("../Utilis/tokenmanagement");
-const crypto = require("crypto");
 
 require("dotenv").config({ path: "./config/.env" });
 
@@ -21,17 +20,17 @@ exports.register = async (req, res) => {
 // User - a registered user does login
 exports.login = async (req, res) => {
   const username = req.body.username;
-  const password = req.body.password;
+  const enteredPassword = req.body.password;
   
   //find user according to the username
   const user = await User.findOne({ username });
 
   //If user exists generate a token
   if (user != null) {
-    const enteredPassword = hashingPassword(password);
     const userpassword = user.password;
-
-    if (enteredPassword === userpassword) {
+    const isPasswordValid = validPassword(enteredPassword, userpassword);
+    
+    if (isPasswordValid) {
       const token = tokenmanagement.signToken(username);
       res.status(200).send({ token });
     } else {
@@ -47,8 +46,13 @@ exports.profile = async (req, res) => {
 
 // Hashing password
 hashingPassword = (password) => {
-  const salt = crypto.randomBytes(16).toString("hex");
-  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(password, salt);
 
   return hash;
-}
+};
+
+// Compare password
+validPassword = (enteredPassword, userpassword) => {
+  return bcrypt.compareSync(enteredPassword, userpassword);
+};
