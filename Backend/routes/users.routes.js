@@ -3,13 +3,13 @@ const userController = require("../controllers/users.controller");
 const userRouter = express.Router();
 const auth = require("../middleware/auth");
 
-//Register
+//User - Register
 userRouter.post("/register", userController.register);
 
-//Authenticate
+//User - Login
 userRouter.post("/login", userController.login);
 
-//Profile
+//User - Profile
 userRouter.get("/profile", auth, userController.profile);
 
 module.exports = userRouter;

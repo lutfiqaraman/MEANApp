@@ -1,37 +1,32 @@
 const jwt = require("jsonwebtoken");
-const keys = require("./keys");
+
 require("dotenv").config({ path: "./config/.env" });
+
+const secret = process.env.SECRET;
 
 // Sign Token
 exports.signToken = (username) => {
   const payloads = { username };
 
-  const privateKey = {
-    key: keys.keyGenerator.privateKey,
-    passphrase: process.env.PASSPHRASE,
-  };
-
   const signOptios = {
     expiresIn: "12h",
-    algorithm: "RS256",
+    algorithm: "HS256",
   };
 
-  const token = jwt.sign(payloads, privateKey, signOptios);
+  const token = jwt.sign(payloads, secret, signOptios);
 
   return token;
 };
 
 // Verify Token
 exports.verifyTokn = (token) => {
-  const publicKey = keys.keyGenerator.publicKey;
-
   const verifyOption = {
     expiresIn: "12h",
-    algorithm: "RS256",
+    algorithm: "HS256",
   };
 
   try {
-    return jwt.verify(token, publicKey, verifyOption);
+    return jwt.verify(token, secret, verifyOption);
   } catch (error) {
     return false;
   }
