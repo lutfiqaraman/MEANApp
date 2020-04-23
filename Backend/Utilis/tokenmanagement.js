@@ -1,7 +1,6 @@
-const jwt = require("jsonwebtoken");
-
 require("dotenv").config({ path: "./config/.env" });
 
+const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
 // Sign Token
