@@ -1,6 +1,7 @@
 const User = require("../models/users.model");
 const bcrypt = require("bcryptjs");
 const tokenmanagement = require("../Utilis/tokenmanagement");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config({ path: "./config/.env" });
 
@@ -41,7 +42,11 @@ exports.login = async (req, res) => {
 
 // User - Show a User profile
 exports.profile = async (req, res) => {
-  await res.json("User Profile is here");
+  const token = req.get("Authorization");
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  const user = await User.findOne({ username: decodedToken.username});
+  
+  res.status(200).send(user);
 };
 
 // User - Send Welcome Email
