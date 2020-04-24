@@ -44,6 +44,11 @@ exports.profile = async (req, res) => {
   await res.json("User Profile is here");
 };
 
+// User - Send Welcome Email
+sendWelcomeEmail = () => {
+  // Welcome email to be send when register a user
+};
+
 // Hashing password
 hashingPassword = (password) => {
   const salt = bcrypt.genSaltSync(10);
