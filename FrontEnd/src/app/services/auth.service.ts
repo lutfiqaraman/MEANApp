@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { JsonPipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,7 @@ import { JsonPipe } from '@angular/common';
 export class AuthService {
   authToken: any;
   user: any;
+  apiServer: string = environment.apiServer;
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +17,7 @@ export class AuthService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    const url = 'http://localhost:3000/users/register';
+    const url = this.apiServer +  '/users/register';
     const header = { headers };
 
     return this.http.post(url, user, header).pipe(map(res => res));
@@ -26,7 +27,7 @@ export class AuthService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    const url = 'http://localhost:3000/users/auth';
+    const url = this.apiServer + '/users/auth';
     const header = { headers };
 
     return this.http.post(url, user, header).pipe(map(res => res));
@@ -38,7 +39,7 @@ export class AuthService {
     headers.set('Content-Type', 'application/json');
     headers.set('Authorization', this.getToken());
 
-    const url = 'http://localhost:3000/users/profile';
+    const url = this.apiServer + '/users/profile';
     const header = { headers };
 
     return this.http.get(url, header).pipe(map((res: any) => res));
