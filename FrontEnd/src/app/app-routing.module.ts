@@ -8,6 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AccountsComponent } from './components/accounts/accounts.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,4 +31,6 @@ export const routingComponents =
     RegisterComponent,
     LoginComponent,
     DashboardComponent,
+    NotFoundComponent,
+    AccountsComponent,
     ProfileComponent ];
