@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
+import { User } from '../../models/User';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
+  user: User = new User();
 
   constructor(
     private auth: AuthService,
@@ -23,21 +25,34 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
-    const loginUser = {
-      username: this.username,
-      password: this.password
-    };
+    this.auth.login(this.user.name, this.user.password).subscribe(
+      (result) => {
+        if (typeof localStorage !== 'undefined') {
+          console.log('token = ' + result.tohen);
+          localStorage.setItem('token', result.token);
+        }
 
-    this.auth.authenticateUser(loginUser).subscribe((data: any) => {
-      if (data.success) {
-        this.auth.storeUserData(data.token, data.user);
-        this.notify.onSuccess('Login successfully');
-        this.router.navigate(['dashboard']);
-      } else {
-        this.notify.onFail(data.msg);
-        this.router.navigate(['login']);
+        this.router.navigate(['/users/profile']);
+      },
+      (error) => {
+        if (error) { throw error; }
       }
-    });
+    );
+    // const loginUser = {
+    //   username: this.username,
+    //   password: this.password
+    // };
+
+    // this.auth.authenticateUser(loginUser).subscribe((data: any) => {
+    //   if (data.success) {
+    //     this.auth.storeUserData(data.token, data.user);
+    //     this.notify.onSuccess('Login successfully');
+    //     this.router.navigate(['dashboard']);
+    //   } else {
+    //     this.notify.onFail(data.msg);
+    //     this.router.navigate(['login']);
+    //   }
+    // });
   }
 
 }
