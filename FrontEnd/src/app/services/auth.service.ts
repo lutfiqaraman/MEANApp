@@ -35,11 +35,11 @@ export class AuthService {
     return this.http.post(url, user, header).pipe(map((res) => res));
   }
 
-  login(name: string, password: string): Observable<any> {
+  login(username: string, password: string): Observable<any> {
     this.url = this.apiServer + '/users/login';
 
     const result = this.http.post<any>(this.url, {
-      name,
+      username,
       password,
     });
 

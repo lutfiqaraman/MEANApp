@@ -25,10 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
-    this.auth.login(this.user.name, this.user.password).subscribe(
+    this.auth.login(this.user.username, this.user.password).subscribe(
       (result) => {
         if (typeof localStorage !== 'undefined') {
-          console.log('token = ' + result.tohen);
           localStorage.setItem('token', result.token);
         }
 
